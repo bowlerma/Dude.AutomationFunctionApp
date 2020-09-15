@@ -15,7 +15,7 @@ namespace Dude.AutomationFunctionApp
         
         [FunctionName("DevopsAuth")]
         public static async Task<IActionResult> RunAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
             HttpRequest req, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
