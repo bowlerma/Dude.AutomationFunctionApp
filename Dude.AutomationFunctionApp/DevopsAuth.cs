@@ -23,11 +23,18 @@ namespace Dude.AutomationFunctionApp
 
             string pat = req.Query["pat"];
             var token = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("dude:" + pat));
-            
-            string runbookFile = req.Query["runbookFile"];
-            string url =
-                "https://dev.azure.com/mhrengineering/Trent11%20Hosted/_apis/git/repositories/PF.Automation/items?path=%2FDeploymentSpecific%2FSubprocesses%2F" + runbookFile + "&api-version=5.1";
-            
+
+            string devopsUriType = req.Query["devopsUriType"];
+            string url = "";
+
+            if (devopsUriType.Equals("repo"))
+            {
+                string runbookFile = req.Query["runbookFile"];
+                url =
+                    "https://dev.azure.com/mhrengineering/Trent11%20Hosted/_apis/git/repositories/PF.Automation/items?path=%2FDeploymentSpecific%2FSubprocesses%2F" +
+                    runbookFile + "&api-version=5.1";
+            }
+
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
 
             var response = Client.GetAsync(url).Result;
