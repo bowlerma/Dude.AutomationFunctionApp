@@ -34,12 +34,19 @@ namespace Dude.AutomationFunctionApp
                     "https://dev.azure.com/mhrengineering/Trent11%20Hosted/_apis/git/repositories/PF.Automation/items?path=%2FDeploymentSpecific%2FSubprocesses%2F" +
                     runbookFile + "&api-version=5.1";
             }
+            else if (devopsUriType.Equals("package"))
+            {
+                string package = req.Query["package"];
+                string packageVersion = req.Query["packageVersion"];
+                url =
+                    "https://pkgs.dev.azure.com/mhrengineering/Engineering%20Playground/_apis/packaging/feeds/DudePWSHTest/nuget/packages/" + package + "/versions/" + packageVersion + "/content?api-version=6.0-preview.1";
+            }
 
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
 
             var response = Client.GetAsync(url).Result;
             
-            return new OkObjectResult(response.Content.ReadAsStringAsync().Result);
+            return new OkObjectResult(response.Content.ReadAsStreamAsync().Result);
         }
     }
 }
